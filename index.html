@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>WebDoctors</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Medilab
+  * Template URL: https://bootstrapmade.com/medilab-free-medical-bootstrap-theme/
+  * Updated: Aug 07 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header sticky-top">
+
+    <div class="topbar d-flex align-items-center">
+      <div class="container d-flex justify-content-center justify-content-md-between">
+        <div class="social-links d-none d-md-flex align-items-center">
+          <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div><!-- fim da barra superior -->
+
+    <div class="branding d-flex align-items-center">
+
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+        <a href="index.html" class="logo d-flex align-items-center me-auto">
+          <!-- Uncomment the line below if you also wish to use an image logo -->
+          <!-- <img src="assets/img/logo.png" alt=""> -->
+          <h1 class="sitename">WebDoctors</h1>
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="javascript:void(0)" onclick="openModal()">Marcar Consulta</a></li>
+            <li><a href="#remarcar" onclick="openRemarcarModal()">Remarcar Consulta</a></li>
+            <li><a href="#cancelar" onclick="openCancelarModal()">Cancelar Consulta</a></li>
+            <li><a href="#visualizar" onclick="openVisualizarModal()">Visualizar Consulta</a></li>
+            <li class="dropdown"><a class="cta-btn d-none d-sm-block" href="#"><span>Mais opções</span> <i
+                  class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="#">Enviar Exame</a></li>
+                <li><a href="#">Visualizar Prontuário</a></li>
+                <li><a href="#">Visualizar Fila de Atendimento</a></li>
+                <li><a href="#">Sair</a></li>
+              </ul>
+            </li>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+      </div>
+
+    </div>
+
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section light-background">
+
+      <img src="assets/img/hero-bg.jpg" alt="" data-aos="fade-in">
+
+      <div class="container position-relative">
+
+        <div class="welcome position-relative" data-aos="fade-down" data-aos-delay="100">
+          <h2>Bem-Vindo ao WebDoctors</h2>
+          <p>Buscando um bom atendimento a distância</p>
+        </div><!-- fim da parte de bem-vindo -->
+
+        <div class="content row gy-4">
+          <div class="col-lg-4 d-flex align-items-stretch">
+            <div class="why-box" data-aos="zoom-out" data-aos-delay="200">
+              <h3> O que é o WebDoctors? </h3>
+              <p>
+                WebDoctors é um site de telemedicina que visa propocionar uma melhor experiência no atendimento online,
+                com consultas e outras características importante nesse contex. Buscando sempre uma experiência do
+                usuário confortável e adequada.
+              </p>
+            </div>
+          </div><!-- fim da explicação sobre o site -->
+
+          <div class="col-lg-8 d-flex align-items-stretch">
+            <div class="d-flex flex-column justify-content-center">
+              <div class="row gy-4">
+
+                <div class="col-xl-4 d-flex align-items-stretch">
+                  <div class="icon-box" data-aos="zoom-out" data-aos-delay="300">
+                    <i class="bi bi-clipboard-data"></i>
+                    <h4>Marque Consultas</h4>
+                    <p>Tenha a possibilidade de marcar consultas de forma totalmente remota e fácil</p>
+                  </div>
+                </div><!-- fim -->
+
+                <div class="col-xl-4 d-flex align-items-stretch">
+                  <div class="icon-box" data-aos="zoom-out" data-aos-delay="400">
+                    <i class="bi bi-gem"></i>
+                    <h4>Tenha uma boa experiência</h4>
+                    <p>Com uma página clara e objetivo tenha uma ótima experiência de navegação</p>
+                  </div>
+                </div><!-- fim -->
+
+                <div class="col-xl-4 d-flex align-items-stretch">
+                  <div class="icon-box" data-aos="zoom-out" data-aos-delay="500">
+                    <i class="bi bi-inboxes"></i>
+                    <h4>Muitos Serviços</h4>
+                    <p>Encontre outros Serviços para que você possa ter outras possibilidades de atendimentos</p>
+                  </div>
+                </div><!-- fim -->
+
+              </div>
+            </div>
+          </div>
+        </div><!-- fim do conteúdo principal-->
+
+      </div>
+
+    </section>
+
+    <!-- FIM DA PÁGINA PRINCIPAL -->
+
+    <!-- Modal de Marcar Consulta -->
+    <div id="marcarConsultaModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2>Marcar Consulta</h2>
+        <form id="consultaForm">
+          <div class="form-group">
+            <label for="paciente">Nome do Paciente</label>
+            <input type="text" id="paciente" name="paciente" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="medico">Nome do Médico</label>
+            <input type="text" id="medico" name="medico" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="data">Data</label>
+            <input type="date" id="data" name="data" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="hora">Hora</label>
+            <input type="time" id="hora" name="hora" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="motivo">Motivo</label>
+            <textarea id="motivo" name="motivo" rows="4" class="form-control" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary mt-3">Confirmar Consulta</button>
+        </form>
+      </div>
+    </div>
+    <!-- Fim do Modal -->
+
+    <!-- Modal de Remarcar Consulta -->
+    <div id="remarcarConsultaModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeRemarcarModal()">&times;</span>
+        <h2>Remarcar Consulta</h2>
+
+        <!-- Seção para mostrar consultas já marcadas -->
+        <div id="consulta-lista"
+          style="overflow-y: auto; max-height: 200px; border: 1px solid #000000; padding: 10px; margin-bottom: 15px;">
+          <!-- As consultas serão carregadas aqui dinamicamente -->
+        </div>
+      </div>
+    </div>
+    <!-- Fim do Modal -->
+
+    <!-- Modal de Cancelar Consulta -->
+    <div id="cancelarConsultaModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeCancelarModal()">&times;</span>
+        <h2>Cancelar Consulta</h2>
+
+        <!-- Seção para mostrar consultas já marcadas -->
+        <div id="consulta-lista-cancelar"
+          style="overflow-y: auto; max-height: 200px; border: 1px solid #000000; padding: 10px; margin-bottom: 15px;">
+          <!-- As consultas serão carregadas aqui dinamicamente -->
+        </div>
+      </div>
+    </div>
+    <!-- Fim do Modal -->
+
+    <!-- Modal de Visualizar Consultas -->
+    <div id="visualizarConsultaModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeVisualizarModal()">&times;</span>
+        <h2>Visualizar Consulta</h2>
+
+        <!-- Seção para mostrar consultas já marcadas -->
+        <div id="consulta-lista-visualizar"
+          style="overflow-y: auto; max-height: 200px; border: 1px solid #000000; padding: 10px; margin-bottom: 15px;">
+          <!-- As consultas serão carregadas aqui dinamicamente -->
+        </div>
+      </div>
+    </div>
+    <!-- Fim do Modal -->
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- link do js principal -->
+    <script src="assets/js/main.js"></script>
+
+    <!-- CONEXÃO COM O BANCO -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('marcarConsultaModal'); // Certifique-se de que o ID do form está correto
+
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault(); // Impede o envio padrão do formulário
+
+          // Captura os valores dos campos do formulário
+          const nomePaciente = document.getElementById('paciente').value;
+          const nomeMedico = document.getElementById('medico').value;
+          const data = document.getElementById('data').value;
+          const hora = document.getElementById('hora').value;
+          const motivo = document.getElementById('motivo').value;
+
+          try {
+            // Faz a requisição POST para o servidor Express
+            const response = await fetch('http://localhost:3000/marcar-consulta', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ nomePaciente, nomeMedico, data, hora, motivo, status: "Pendente" }) // Ajuste conforme necessário
+            });
+
+            // Processa a resposta do servidor
+            if (response.ok) {
+              alert('Consulta marcada com sucesso!');
+              form.reset(); // Limpa o formulário após o envio
+            } else {
+              alert('Erro ao marcar consulta.');
+            }
+          } catch (error) {
+            //console.error('Erro:', error);
+            //alert('Erro ao se conectar com o servidor.');
+          }
+        });
+      });
+    </script>
+
+</body>
+
+</html>
