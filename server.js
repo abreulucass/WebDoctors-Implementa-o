@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const path = require('path')
 const bodyParser = require('body-parser');
 const cors = require('cors'); // Importando o cors
@@ -9,12 +10,17 @@ const PORT = 3000;
 
 //importar o arquivo do bd
 const connectDb = require('./bd')
-const consultasRoutes = require('./controllers/controller')
+const consultasRoutes = require('./controllers/controller');
+
+const User = require('./models/User');
+const { emit } = require('process');
 
 // ====================================================================================================================
-
 //app
 const app = express();
+
+app.use(session({secret:'adna3dniuar35nfis432dfinaas'}))
+app.use(bodyParser.urlencoded({extended:true}))
 
 // ====================================================================================================================
 
@@ -41,14 +47,40 @@ connectDb()
 })
 .catch(err => console.log("Não foi possivel conectar ao bd \n", err))
 
-
 // ===================================================================================================================
 
-// Configuração para servir arquivos estáticos da pasta assets
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 
+// ===================================================================================================================
+
+app.post('/', async (req, res) => { 
+    
+    const email = req.body.email;
+    const password = req.body.pass;
+
+     // check if user exists
+    const user = await User.findOne({email: email})
+
+    if(!user){
+        return res.send('<script>alert("Usuário não encontrado"); window.location.href="/";</script>');
+    }
+
+    if(password != user.password){
+        return res.send('<script>alert("Senha invalida"); window.location.href="/";</script>');
+    }
+
+    return res.render('index')
+
+});
+
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+    if(req.session.login){
+        res.render('index')
+    }else{
+        res.render('login')
+    }
 });
 

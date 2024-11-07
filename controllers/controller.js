@@ -1,7 +1,13 @@
+require('dotenv').config()
 const express = require('express');
-const router = express.Router()
+const router = express.Router();
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 
 const Consulta = require('../models/consulta_model')
+const User = require('../models/User')
+
 
 // Rota para adicionar uma nova consulta
 router.post('/marcar-consulta', async (req, res) => {
@@ -13,6 +19,8 @@ router.post('/marcar-consulta', async (req, res) => {
         console.error('Erro ao marcar consulta:', error.message); // Exibe o erro no console
         res.status(500).send('Erro ao marcar consulta: ' + error.message);
     }
+
+    
 });
 
 // ===================================================================================================================
