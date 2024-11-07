@@ -44,6 +44,11 @@ connectDb()
 
 // ===================================================================================================================
 
+// Configuração para servir arquivos estáticos da pasta assets
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+
+
 app.get('/', (req, res) => {
-    res.redirect('/');
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
+
