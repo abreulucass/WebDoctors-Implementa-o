@@ -181,7 +181,7 @@ async function marcarConsulta(event) {
     data: data, // Armazena a data
     hora: hora, // Armazena a hora
     motivo: motivo, // Armazena o motivo
-    status: 'Agendada' // Certifique-se de usar "Pendente" como status padrão
+    status: 'Agendada' // Não está indo como agendado e sim como pendente *corrigir mais tarde
   };
 
   try {
