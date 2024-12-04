@@ -1,7 +1,9 @@
 const express = require('express');
-const path = require('path')
+const mongoose = require('mongoose');
+const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors'); // Importando o cors
+const session = require('express-session');
 
 const PORT = 3000;
 
@@ -9,12 +11,22 @@ const PORT = 3000;
 
 //importar o arquivo do bd
 const connectDb = require('./bd')
-const consultasRoutes = require('./controllers/controller')
 
+const loginRoutes = require('./controllers/controller_login'); // Rotas de login
+const medicosRoutes = require('./controllers/controller_medico'); // Rotas de médicos
+const consultasRoutes = require('./controllers/controller_paciente')
 // ====================================================================================================================
 
 //app
 const app = express();
+
+// Configuração de sessões
+app.use(session({
+    secret: 'suaChaveSecreta', // Substitua por uma chave segura
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Alterar para `true` se usar HTTPS
+}));
 
 // ====================================================================================================================
 
@@ -22,11 +34,22 @@ const app = express();
 app.use(cors()); // Habilita CORS
 app.use(bodyParser.json());
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 // ====================================================================================================================
+
+// Servir os arquivos estáticos da página de login
+app.use('/login-assets', express.static(path.join(__dirname, 'assets', 'login', 'Login_v1')));
+
+// Servir os arquivos estáticos da pasta 'menu'
+app.use('/menu', express.static(path.join(__dirname, 'assets', 'menu')));
+
+// Configurar a pasta "views" como estática
+app.use(express.static(path.join(__dirname, 'views')));  // Certifique-se de que as views estão sendo servidas corretamente
 
 //rotas
 app.use('/', consultasRoutes)
+app.use('/medicos', medicosRoutes); // Rotas de médicos (subrota para gerenciar horários)
+app.use('/', loginRoutes);
 
 // ====================================================================================================================
 
@@ -41,14 +64,8 @@ connectDb()
 })
 .catch(err => console.log("Não foi possivel conectar ao bd \n", err))
 
-
 // ===================================================================================================================
 
-// Configuração para servir arquivos estáticos da pasta assets
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
-
-
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+    res.sendFile(path.join(__dirname, 'assets', 'login', 'Login_v1', 'login.html'));
 });
-

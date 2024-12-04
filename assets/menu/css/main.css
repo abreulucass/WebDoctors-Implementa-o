@@ -478,12 +478,23 @@ h6 {
 /*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
+
+.hero img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
 .hero {
   width: 100%;
   min-height: calc(100vh - 112px);
   padding: 80px 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;  /* Alterado para alinhamento superior */
   justify-content: center;
   position: relative;
   overflow: hidden;
@@ -516,6 +527,10 @@ h6 {
 
 .hero .content {
   margin-top: 40px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start; /* Ajuste para evitar que as caixas fiquem muito distantes */
+  flex-wrap: wrap;  /* Permite que as caixas de consultas se ajustem conforme necessário */
 }
 
 .hero .content .why-box {
@@ -523,24 +538,29 @@ h6 {
   background: var(--accent-color);
   padding: 30px;
   border-radius: 4px;
+  width: 100%;  /* Garante que a caixa ocupe toda a largura disponível */
+  max-width: 400px;  /* Limita a largura máxima da caixa */
+  min-height: 400px;  /* Garante que a caixa tenha uma altura mínima */
+  flex-grow: 1;  /* Permite que a caixa ocupe o espaço restante */
+  margin-right: 20px;  /* Espaço entre as caixas */
 }
 
 .hero .content .why-box h3 {
   color: var(--contrast-color);
   font-weight: 700;
   font-size: 34px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;  
 }
 
 .hero .content .why-box p {
-  margin-bottom: 30px;
+  margin-bottom: 20px;  
 }
 
 .hero .content .why-box .more-btn {
   color: var(--contrast-color);
   background: color-mix(in srgb, var(--contrast-color), transparent 80%);
   display: inline-block;
-  padding: 6px 30px 8px 30px;
+  padding: 6px 30px;
   border-radius: 50px;
   transition: all ease-in-out 0.4s;
 }
@@ -554,13 +574,19 @@ h6 {
   color: var(--accent-color);
 }
 
+/* Estilo para as caixas de consulta */
 .hero .content .icon-box {
   text-align: center;
   border-radius: 10px;
   background: color-mix(in srgb, var(--surface-color), transparent 20%);
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
   padding: 40px 30px;
+  min-height: 400px;
   width: 100%;
+  width: 450px;  /* Limita a largura máxima das caixas de consulta */
+  margin-right: 500px;  /* Espaço entre as caixas de consulta */
+  flex-grow: 1;
+  margin-bottom: 20px;  /* Espaçamento entre as caixas quando descem */
 }
 
 .hero .content .icon-box i {
@@ -579,40 +605,155 @@ h6 {
   color: color-mix(in srgb, var(--default-color), transparent 30%);
 }
 
+/* Ajustes para telas menores */
+@media (max-width: 991px) {
+  .hero .content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero .content .why-box, .hero .content .icon-box {
+    width: 90%;
+    margin-right: 0;
+  }
+}
+
 /* ============================================================================== */
 
-/* Estilos do Modal Marcar Consulta */
 .modal {
-  display: none; /* Esconde o modal por padrão */
+  display: none;
   position: fixed;
-  z-index: 1050; /* Acima de outros elementos, incluindo o navbar */
+  z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
+  overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
-  justify-content: center;
-  align-items: center;
 }
 
 .modal-content {
   background-color: #fff;
+  margin: auto;
   padding: 20px;
-  border-radius: 8px;
-  width: 90%;
+  border: 1px solid #888;
+  width: 80%;
   max-width: 500px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  position: relative;
+  border-radius: 8px;
 }
 
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
-  font-weight: bold;
+/* ============================================================================== */
+
+/* Estilização básica do modal de marcar consulta*/
+
+.dropdown-menu {
+  display: block; /* Garante visibilidade */
+  opacity: 1;     /* Remove transparência */
+  color: #000;    /* Define a cor do texto */
+  background: #fff; /* Fundo branco */
+  z-index: 1000;  /* Prioridade de renderização */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  max-width: 600px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Espaçamento entre os elementos */
+}
+
+.modal-content h2 {
+  margin-top: 0;
   color: #333;
+  text-align: center;
+}
+
+label {
+  font-weight: bold;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px; /* Aumenta o espaço inicial */
+  max-height: 200px; /* Define um limite para rolagem */
+  overflow-y: auto; /* Adiciona uma barra de rolagem caso o texto exceda */
+}
+
+/* Estilo para o Modal de Marcar Consulta */
+#marcarConsultaModal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4); /* Cor de fundo semitransparente */
+}
+
+#marcarConsultaModal .modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+}
+
+#marcarConsultaModal .close-btn {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#marcarConsultaModal .close-btn:hover,
+#marcarConsultaModal .close-btn:focus {
+  color: black;
+  text-decoration: none;
   cursor: pointer;
+}
+
+/* Estilo para espaçamento entre campos no modal */
+#marcarConsultaModal .form-group {
+  margin-bottom: 15px;
+}
+
+/* Estilo do botão de Confirmar Consulta */
+#marcarConsultaModal .button-container {
+  text-align: center;
+}
+
+#marcarConsultaModal button {
+  background-color: #007bff; /* Azul padrão */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#marcarConsultaModal button:hover {
+  background-color: #0056b3; /* Cor mais escura ao passar o mouse */
 }
 
 /* ============================================================================== */
@@ -757,4 +898,261 @@ h6 {
 .close-btn:focus {
   color: black; /* Cor do botão ao passar o mouse */
   cursor: pointer;
+}
+
+
+/* ================================ MEXI AQUI ============================================== */
+
+
+.branding {
+  padding: 10px 0; /* Reduz o espaçamento interno superior e inferior */
+  height: auto; /* Define a altura automática, ou ajuste com um valor fixo, por exemplo: 50px */
+}
+
+.branding {
+  height: 50px; /* Ajuste para o valor desejado */
+}
+
+
+.marcar-consulta {
+  font-size: 16px; /* Tamanho do texto */
+  font-weight: bold; /* Deixa o texto em negrito */
+  border-radius: 10px; /* Bordas arredondadas */
+  text-transform: uppercase; /* Todas as letras maiúsculas */
+  text-shadow: -10px -10px 1000px #000, 0 0 1px #000000;
+
+}
+
+
+html, body {
+  height: 100%;
+  overflow: auto; /* Permite a rolagem somente quando necessário */
+}
+
+.welcome {
+  margin-top: 30px; /* Adiciona um espaçamento superior */
+}
+
+
+#hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Posiciona os itens no topo */
+  align-items: center; /* Centraliza horizontalmente */
+  min-height: calc(100vh - 50px); /* Reduz a altura total para evitar barra de rolagem */
+  padding-top: 0; /* Remove o espaçamento superior */
+  margin: 0; /* Garante que não há margens externas */
+  overflow: hidden; /* Impede que conteúdos extras gerem barra de rolagem */
+  position: relative; /* Necessário para alinhar elementos filhos */
+  box-sizing: border-box; /* Inclui padding e border dentro da altura total */
+}
+
+.btn-warning {
+  margin-left: 25px; /* Ajuste o valor conforme necessário */
+}
+
+
+/* Estilo para o modal */
+.modal {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 100px; /* Espaçamento para garantir que o conteúdo não encoste nas bordas */
+  box-sizing: border-box;
+}
+
+/* Conteúdo do modal */
+.modal-content {
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 8px; /* Bordas arredondadas */
+  border: 1px solid #888;
+  width: 100%;
+  max-width: 500px; /* Ajustando a largura para evitar que o modal fique muito largo */
+  box-sizing: border-box; /* Para garantir que o padding seja calculado corretamente */
+  overflow-y: auto; /* Adiciona uma barra de rolagem se o conteúdo for muito alto */
+}
+
+/* Botão de fechar */
+.close-btn {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Estilo para os campos de entrada e botão */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Contêiner de botão (para ajustar o posicionamento) */
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+
+
+/* ====================*/
+
+/* Estilo básico para o modal */
+.modal {
+  display: none; /* Oculto por padrão */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 5px solid #888;
+  width: 50%;
+  border-radius: 8px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover, .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+
+/*=========================*/
+
+/* Estilo para os itens de horário */
+#lista-horarios-disponiveis li {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+/* Destaque do item ao passar o mouse */
+#lista-horarios-disponiveis li:hover {
+  background-color: #e0f7fa;
+  transform: scale(1.05);
+}
+
+/* Horário selecionado */
+#lista-horarios-disponiveis li.selected {
+  background-color: #81c784;
+  color: white;
+  border-color: #66bb6a;
+}
+
+/* Mensagem de confirmação de remoção */
+#confirmacao-remocao {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  display: none;
+}
+
+/* Botões da confirmação */
+.modal-actions button {
+  margin: 5px;
+  padding: 8px 16px;
+  background-color: #388e3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-actions button:hover {
+  background-color: #2c6e28;
+}
+
+
+.modal-actions button {
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #e57373;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+
+.modal-actions button:hover {
+  background-color: #d32f2f;
+}
+
+/*=========================*/
+
+#logoutBtn {
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+}
+#logoutBtn:hover {
+  text-decoration: underline;
 }

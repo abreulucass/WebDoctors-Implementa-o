@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>WebDoctors</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Vendor CSS Files -->
+    <link href="/menu/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/menu/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="/menu/css/main.css" rel="stylesheet">
+
+    <!-- =======================================================
+            * Template Name: Medilab
+            * Template URL: https://bootstrapmade.com/medilab-free-medical-bootstrap-theme/
+            * Updated: Aug 07 2024 with Bootstrap v5.3.3
+            * Author: BootstrapMade.com
+            * License: https://bootstrapmade.com/license/
+            ======================================================== -->
+</head>
+
+<body class="index-page">
+    <header id="header" class="header sticky-top">
+        <div class="topbar d-flex align-items-center">
+            <div class="container d-flex justify-content-center justify-content-md-between">
+                <div class="social-links d-none d-md-flex align-items-center">
+                    <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div><!-- fim da barra superior -->
+
+        <div class="branding d-flex align-items-center">
+            <div class="container position-relative d-flex align-items-center justify-content-between">
+                <a href="index-medico.html" class="logo d-flex align-items-center me-auto">
+                    <!-- Uncomment the line below if you also wish to use an image logo -->
+                    <!-- <img src="assets/img/logo.png" alt=""> -->
+                    <h1 class="sitename">WebDoctors</h1>
+                </a>
+
+                <nav id="navmenu" class="navmenu">
+                    <ul>
+                        <li><a href="#adicionarHorario" onclick="openAddHorarioModal()">Adicionar Horário
+                                Disponível</a></li>
+                        <li><a href="#removerHorario" onclick="openRemoveHorarioModal()">Remover Horário Disponível</a>
+                        </li>
+                        <li class="dropdown"><a class="cta-btn d-none d-sm-block" href="#"><span>Mais opções</span> <i
+                                    class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="#">Visualizar Prontuário</a></li>
+                                <li><a href="#">Enviar Receita</a></li>
+                                <li><a href="#" id="logoutBtn">Sair</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+
+        <!-- Hero Section -->
+        <section id="hero" class="hero section light-background">
+
+            <img src="/menu/img/hero-bg.jpg" alt="" data-aos="fade-in">
+
+            <div class="container position-relative">
+
+                <div class="welcome position-relative" data-aos="fade-down" data-aos-delay="100">
+                    <h2>Bem-Vindo ao WebDoctors</h2>
+                    <p>Buscando um bom atendimento a distância</p>
+                </div><!-- fim da parte de bem-vindo -->
+
+                <div class="content row gy-4">
+                    <div class="col-lg-4 d-flex align-items-stretch">
+                        <div class="why-box" data-aos="zoom-out" data-aos-delay="200">
+                            <h3> O que é o WebDoctors? </h3>
+                            <p>
+                                WebDoctors é um site de telemedicina que visa propocionar uma melhor experiência no
+                                atendimento online,
+                                com consultas e outras características importantes nesse contexto. Buscando sempre uma
+                                experiência do
+                                usuário confortável e adequada.
+                            </p>
+                        </div>
+                    </div><!-- fim da explicação sobre o site -->
+
+                    <div class="col-lg-8 d-flex align-items-stretch">
+                        <div class="d-flex flex-column justify-content-center">
+                            <div class="row gy-4">
+                                <section id="consultas-marcadas-medico">
+                                    <div class="container">
+                                        <div class="row" id="consultas-container-medico">
+                                            <!-- As consultas serão inseridas aqui pelo JS -->
+                                        </div>
+                                        <div id="sem-consultas-medico" class="d-none">
+                                            <p>Você não tem consultas marcadas.</p>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- fim -->
+
+            </div>
+            </div>
+            </div>
+            </div><!-- fim do conteúdo principal-->
+
+            </div>
+
+        </section>
+
+        <!-- FIM DA PÁGINA PRINCIPAL -->
+
+        <!-- Modal de Adicionar Horário Disponível -->
+        <div id="adicionarHorarioModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeAddHorarioModal()">&times;</span>
+                <h2>Adicionar Horário Disponível</h2>
+
+                <form>
+                    <label for="data-horario">Data:</label>
+                    <input type="date" id="data-horario" required>
+
+                    <label for="hora-horario">Hora:</label>
+                    <input type="time" id="hora-horario" required>
+
+                    <button type="button" onclick="adicionarHorario()">Adicionar</button>
+                </form>
+            </div>
+        </div>
+        <!-- Fim do Modal -->
+
+
+        <!-- Modal para remoção de horário -->
+        <div id="removerHorarioModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeRemoveHorarioModal()">&times;</span>
+                <h2>Remover Horário Disponível</h2>
+
+                <!-- Lista de horários disponíveis -->
+                <ul id="lista-horarios-disponiveis">
+                    <!-- Os horários disponíveis serão carregados dinamicamente -->
+                </ul>
+
+                <!-- Mensagem de confirmação -->
+                <div id="confirmacao-remocao" style="display: none;">
+                    <p>Tem certeza que deseja remover este horário?</p>
+                    <div class="modal-actions">
+                        <button id="confirmar-remocao" onclick="confirmarRemocao()">Sim</button>
+                        <button onclick="cancelarRemocao()">Não</button>
+                    </div>
+                </div>
+
+                <!-- Botão para fechar -->
+                <button onclick="closeRemoveHorarioModal()">Fechar</button>
+            </div>
+        </div>
+        </section>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
+
+        <!-- Vendor JS Files -->
+        <script src="/menu/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- link do js principal -->
+        <script src="/menu/js/main_medico.js"></script>
+    </main>
+</body>
+
+</html>
