@@ -4,9 +4,44 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-
 const Consulta = require('../models/consulta_model')
 const User = require('../models/User')
+
+router.get('/login', async (req, res) => { 
+    return res.render('login')
+});
+
+router.post('/login', async (req, res) => { 
+
+    const email = req.body.email;
+    const password = req.body.pass;
+
+     // check if user exists
+    const user = await User.findOne({email: email})
+
+    if(!user){
+        return res.send('<script>alert("Usuário não encontrado"); window.location.href="/";</script>');
+    }
+
+    if(password != user.password){
+        return res.send('<script>alert("Senha invalida"); window.location.href="/";</script>');
+    }
+
+    return res.redirect('/menu')
+
+});
+
+router.get('/register', async(req, res) => {
+    return res.render('register');
+})
+
+router.post('/register', async(req, res) => {
+    
+})
+
+router.get('/menu', async(req, res) => {
+    return res.render('index')
+})
 
 
 // Rota para adicionar uma nova consulta

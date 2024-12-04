@@ -56,31 +56,10 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // ===================================================================================================================
 
-app.post('/', async (req, res) => { 
-    
-    const email = req.body.email;
-    const password = req.body.pass;
-
-     // check if user exists
-    const user = await User.findOne({email: email})
-
-    if(!user){
-        return res.send('<script>alert("Usuário não encontrado"); window.location.href="/";</script>');
-    }
-
-    if(password != user.password){
-        return res.send('<script>alert("Senha invalida"); window.location.href="/";</script>');
-    }
-
-    return res.render('index')
-
-});
-
 app.get('/', (req, res) => {
     if(req.session.login){
-        res.render('index')
+        res.redirect('/main')
     }else{
-        res.render('login')
+        res.redirect('/login')
     }
 });
-
