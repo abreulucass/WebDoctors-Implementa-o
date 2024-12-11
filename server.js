@@ -14,7 +14,8 @@ const connectDb = require('./bd')
 
 const loginRoutes = require('./controllers/controller_login'); // Rotas de login
 const medicosRoutes = require('./controllers/controller_medico'); // Rotas de médicos
-const consultasRoutes = require('./controllers/controller_paciente')
+const consultasRoutes = require('./controllers/controller_paciente');
+const registerRoutes = require('./controllers/controller_register');
 // ====================================================================================================================
 
 //app
@@ -50,6 +51,8 @@ app.use(express.static(path.join(__dirname, 'views')));  // Certifique-se de que
 app.use('/', consultasRoutes)
 app.use('/medicos', medicosRoutes); // Rotas de médicos (subrota para gerenciar horários)
 app.use('/', loginRoutes);
+app.use('/', registerRoutes);
+
 
 // ====================================================================================================================
 
@@ -68,4 +71,8 @@ connectDb()
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'assets', 'login', 'Login_v1', 'login.html'));
+});
+
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'register.html'));
 });
