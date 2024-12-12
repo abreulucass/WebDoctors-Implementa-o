@@ -47,18 +47,19 @@
 
                 <nav id="navmenu" class="navmenu">
                     <ul>
-                        <li><a href="#adicionarHorario" onclick="openAddHorarioModal()">Adicionar Horário
-                                Disponível</a></li>
+                        <li><a href="#adicionarHorario" onclick="openAddHorarioModal()">Adicionar Horário Disponível</a>
+                        </li>
                         <li><a href="#removerHorario" onclick="openRemoveHorarioModal()">Remover Horário Disponível</a>
                         </li>
-                        <li class="dropdown"><a class="cta-btn d-none d-sm-block" href="#"><span>Mais opções</span> <i
+                        <li><a href="#" id="logoutBtn">Sair</a></li>
+                        <!-- <li class="dropdown"><a class="cta-btn d-none d-sm-block" href="#"><span>Mais opções</span> <i
                                     class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
                                 <li><a href="#">Visualizar Prontuário</a></li>
                                 <li><a href="#">Enviar Receita</a></li>
                                 <li><a href="#" id="logoutBtn">Sair</a></li>
                             </ul>
-                        </li>
+                        </li> -->
                     </ul>
                     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
                 </nav>
@@ -132,7 +133,7 @@
 
                 <form>
                     <label for="data-horario">Data:</label>
-                    <input type="date" id="data-horario" required>
+                    <input type="date" id="data-horario" required min="">
 
                     <label for="hora-horario">Hora:</label>
                     <input type="time" id="hora-horario" required>
@@ -169,6 +170,28 @@
             </div>
         </div>
         </section>
+
+        <!-- Modal de Receita -->
+        <div id="modal-receita" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('modal-receita')">&times;</span>
+                <h4 id="paciente-receita">Paciente:</h4>
+                <form id="form-receita" onsubmit="enviarReceita(event)">
+                    <input type="hidden" id="consulta-id" name="consultaId">
+
+                    <label for="medicamento">Medicamento:</label>
+                    <input type="text" id="medicamento" name="medicamento" required>
+
+                    <label for="dosagem">Dosagem:</label>
+                    <input type="text" id="dosagem" name="dosagem" required>
+
+                    <label for="instrucoes">Instruções:</label>
+                    <textarea id="instrucoes" name="instrucoes" required></textarea>
+
+                    <button type="submit" class="btn btn-enviar">Enviar Receita</button>
+                </form>
+            </div>
+        </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
 

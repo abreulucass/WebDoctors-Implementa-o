@@ -518,6 +518,57 @@ async function cancelarConsulta(idConsulta, consultaElement) {
 
 // ===================================================================================================================
 
+function openEnviarExame(consultaId) {
+  // Exibe o modal
+  const modal = document.getElementById('enviarExameModal');
+  modal.style.display = 'flex';
+
+  // Adiciona o comportamento de envio ao formulário
+  const form = document.getElementById('formEnviarExame');
+  form.onsubmit = function (event) {
+      event.preventDefault(); // Impede o reload da página
+      const fileInput = document.getElementById('exameFile');
+      const file = fileInput.files[0];
+
+      if (file) {
+          enviarExame(consultaId, file);
+      } else {
+          alert('Selecione um arquivo antes de enviar.');
+      }
+  };
+}
+
+function closeEnviarExameModal() {
+  const modal = document.getElementById('enviarExameModal');
+  modal.style.display = 'none';
+}
+
+function enviarExame(consultaId, file) {
+  const formData = new FormData();
+  formData.append('exame', file);
+  formData.append('consultaId', consultaId);
+
+  fetch('/enviar-exame', {
+      method: 'POST',
+      body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          alert('Exame enviado com sucesso!');
+      } else {
+          alert('Erro ao enviar o exame: ' + data.message);
+      }
+      closeEnviarExameModal();
+  })
+  .catch(error => {
+      console.error('Erro:', error);
+      alert('Erro ao enviar o exame.');
+  });
+}
+
+// ===================================================================================================================
+
 async function carregarConsultasPaciente() {
   const pacienteId = localStorage.getItem('idPaciente'); // Certifique-se de que o pacienteId está no localStorage
   if (!pacienteId) {
@@ -580,18 +631,19 @@ function preencherConsultas(consultas) {
       consultaElement.classList.add("col-lg-4", "col-md-6", "d-flex", "align-items-stretch");  // Alterado para 'col-lg-4' e 'col-md-6'
 
       consultaElement.innerHTML = `
-      <div class="icon-box" data-aos-delay="${(index + 1) * 100}">
-        <i class="bi bi-calendar-check"></i>
-        <h4>${medico}</h4>
-        <p><strong>Data:</strong> ${data}</p>
-        <p><strong>Hora:</strong> ${hora}</p>
-        <p><strong>Motivo:</strong> ${motivo}</p>
-        <p><strong>Status:</strong> ${status}</p>
-        <div class="d-flex mt-3">
-          <button class="btn btn-danger me-2" style="background-color: #ff5733; border: none;" onclick="cancelarConsulta('${consulta._id}', this.closest('.col-lg-4'))">Cancelar</button>
-          <button class="btn btn-warning" style="background-color: #3094ff; border: none;" onclick="openRemarcarModal('${consulta._id}')">Remarcar</button>
+        <div class="icon-box" data-aos-delay="${(index + 1) * 100}">
+          <i class="bi bi-calendar-check"></i>
+          <h4> Médico: ${medico}</h4>
+          <p><strong>Data:</strong> ${data}</p>
+          <p><strong>Hora:</strong> ${hora}</p>
+          <p><strong>Motivo:</strong> ${motivo}</p>
+          <p><strong>Status:</strong> ${status}</p>
+          <div class="d-flex mt-3">
+            <button class="btn btn-cancelar" onclick="cancelarConsulta('${consulta._id}', this.closest('.col-lg-4'))">Cancelar</button>
+            <button class="btn btn-remarcar" onclick="openRemarcarModal('${consulta._id}')">Remarcar</button>
+            <button class="btn btn-exame" onclick="openEnviarExame('${consulta._id}')">Enviar Exame</button>
+          </div>
         </div>
-      </div>
       `;
 
       // Adiciona o novo elemento ao container

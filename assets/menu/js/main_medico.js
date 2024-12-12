@@ -333,6 +333,64 @@ function closeRemarcarModal() {
 
 // ===========================================================================================================================
 
+function openCriarReceitaModal(consultaId, pacienteNome) {
+
+  console.log('ID da Consulta:', consultaId);
+  console.log('Nome do paciente:', pacienteNome);
+  // Referência ao modal
+  const modal = document.getElementById('modal-receita');
+
+  // Preenche os campos com informações da consulta
+  document.getElementById('paciente-receita').innerText = `Paciente: ${pacienteNome}`;
+  document.getElementById('consulta-id').value = consultaId;
+
+  // Abre o modal
+  modal.classList.add('show');
+  modal.style.display = 'block';
+}
+
+async function enviarReceita(event) {
+  event.preventDefault();
+
+  const consultaId = document.getElementById('consulta-id').value;
+  const medicamento = document.getElementById('medicamento').value;
+  const dosagem = document.getElementById('dosagem').value;
+  const instrucoes = document.getElementById('instrucoes').value;
+
+  const receita = {
+    consultaId,
+    medicamentos: [{ nome: medicamento, dosagem, instrucoes }],
+    observacoes: "",
+  };
+
+  console.log('VAI ENTRAR NO TRY');
+  try {
+    const response = await fetch('/medicos/receitas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(receita),
+    });
+
+    if (response.ok) {
+      alert('Receita enviada com sucesso!');
+      closeModal('modal-receita');
+    } else {
+      alert('Erro ao enviar receita.');
+    }
+  } catch (error) {
+    console.error('Erro ao enviar receita:', error);
+    alert('Erro ao enviar receita. Tente novamente mais tarde.');
+  }
+}
+
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  modal.classList.remove('show');
+  modal.style.display = 'none';
+}
+
+// ===========================================================================================================================
+
 function preencherConsultasMedico(consultas) {
   // Verifica se as consultas são um array válido
   if (!Array.isArray(consultas)) {
@@ -380,11 +438,12 @@ function preencherConsultasMedico(consultas) {
           <p><strong>Motivo:</strong> ${motivo}</p>
           <p><strong>Status:</strong> ${status}</p>
           <div class="d-flex mt-3">
-            <button class="btn btn-danger me-2" style="background-color: #ff5733; border: none;" onclick="cancelarConsultaMedico('${consulta._id}', this.closest('.col-lg-4'))">Cancelar</button>
-            <button class="btn btn-warning" style="background-color: #3094ff; border: none;" onclick="openRemarcarModalMedico('${consulta._id}')">Remarcar</button>
+            <button class="btn btn-cancelar" onclick="cancelarConsultaMedico('${consulta._id}', this.closest('.col-lg-4'))">Cancelar</button>
+            <button class="btn btn-remarcar" onclick="openRemarcarModalMedico('${consulta._id}')">Remarcar</button>
+            <button class="btn btn-receita" onclick="openCriarReceitaModal('${consulta._id}', '${paciente}')">Criar Receita</button>
           </div>
         </div>
-        `;
+      `;
 
       // Adiciona o novo elemento ao container
       container.appendChild(consultaElement);
@@ -397,6 +456,10 @@ function preencherConsultasMedico(consultas) {
 // Função para abrir o modal de adicionar horário disponível
 function openAddHorarioModal() {
   document.getElementById("adicionarHorarioModal").style.display = "flex";
+
+  // Define a data mínima para o calendário como a data atual
+  const today = new Date().toISOString().split('T')[0]; // Formato YYYY-MM-DD
+  document.getElementById("data-horario").min = today;
 }
 
 // Função para adicionar horário disponível

@@ -1,9 +1,47 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const multer = require('multer');
+const path = require('path');
 const router = express.Router();
 
 const Consulta = require('../models/consulta_model');
 const Medico = require('../models/medico_model');
 const Paciente = require('../models/paciente_model');
+
+
+// Configuração do multer para o upload do arquivo
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './uploads/exames'); // Diretório onde os arquivos serão armazenados
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // Nome único para o arquivo
+    }
+});
+
+const upload = multer({ storage: storage });
+
+// Rota para enviar exame
+router.post('/enviar-exame', upload.single('exame'), async (req, res) => {
+    try {
+        const { consultaId } = req.body; // Pegamos o ID da consulta do corpo da requisição
+        const filePath = path.join('uploads', 'exames', req.file.filename); // Caminho do arquivo salvo no servidor
+
+        // Encontrar a consulta pelo ID e associar o caminho do exame
+        const consulta = await Consulta.findById(consultaId);
+        if (!consulta) {
+            return res.status(404).json({ success: false, message: 'Consulta não encontrada' });
+        }
+
+        consulta.exame = filePath; // Atualiza o campo 'exame' da consulta
+        await consulta.save(); // Salva a consulta com o novo exame
+
+        res.status(200).json({ success: true, message: 'Exame enviado com sucesso!' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Erro ao enviar o exame' });
+    }
+});
 
 // ===================================================================================================================
 

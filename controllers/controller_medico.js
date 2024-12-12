@@ -96,6 +96,39 @@ router.get('/consultas/medico/:id', async (req, res) => {
 
 // ===========================================================================================================
 
+router.post('/receitas', async (req, res) => {
+    console.log('ENTROU NO POST');
+    const { consultaId, medicamentos, observacoes } = req.body;
+
+    // Validação dos dados obrigatórios
+    if (!consultaId || !medicamentos) {
+        return res.status(400).json({ message: 'Consulta ID e medicamentos são obrigatórios.' });
+    }
+    console.log('PASSOU DO IF DE POST');
+
+    try {
+        // Localiza a consulta associada
+        const consulta = await Consulta.findById(consultaId);
+
+        if (!consulta) {
+            return res.status(404).json({ message: 'Consulta não encontrada.' });
+        }
+
+        // Atualiza a consulta com a receita fornecida
+        consulta.receita = { medicamentos, observacoes };
+
+        // Salva a consulta com a nova receita
+        await consulta.save();
+
+        res.status(200).json({ message: 'Receita adicionada com sucesso!', consulta });
+    } catch (error) {
+        console.error('Erro ao adicionar receita:', error);
+        res.status(500).json({ message: 'Erro ao adicionar receita.' });
+    }
+});
+
+// ===========================================================================================================
+
 // Rota para adicionar horário disponível para o médico logado
 router.post('/adicionar-horario', async (req, res) => {
     console.log("ENTROU NO POST");
